@@ -88,6 +88,8 @@ void setup() {
   Serial.print("Initializing RFID modul...");
   nfc.begin();
 
+  pinSetup();
+
   Serial.print("Initializing SD card...");
   // see if the card is present and can be initialized:
   if (!SD.begin()) {
@@ -139,11 +141,12 @@ void loop() {
     if (findPerson(dataArray, maxDataCount,uid, &userIndex)) {
       
       if (checkCredit(dataArray[userIndex].credit,coffeePrice)) {
-        Serial.println("Kave keszitese...");
-        Serial.println("Kave kesz.");
         
-        if(true){
+        
+        if(machine()){
+          Serial.println("Kave keszitese...");
           dataArray[userIndex].credit=monyWithdrawal(dataArray[userIndex].credit,coffeePrice);
+          Serial.println("Kave kesz.");
         }
         else{
           Serial.println("Kávégép error");
